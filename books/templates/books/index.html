@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 align="center">content from index.html</h1>
+<h1 align="center">welcome</h1>
+    <ul>
+        </br></br>
+        <a href="{% url 'book_list' %}">
+            <h3>Books</h3>
+        </a>
+        {% if books %}
+            {% for book in books %}
+                <li>
+                {{ book.title }}
+                </li>
+            {% endfor %}
+        {% else %}
+            <h5> no books available </h5>
+        {% endif %}
+    </ul>
+    <ul>
+        </br></br>
+        <h3>Authors</h3>
+        {% if authors %}
+            {% for author in authors %}
+                <li>
+                {{ author.name }}
+                </li>
+            {% endfor %}
+        {% else %}
+            <h5> no authors available </h5>
+        {% endif %}
+    </ul>
+    <ul>
+        </br></br>
+        <h3>BooksInstance</h3>
+        {% if book_instance %}
+            {% for book_inst in book_instance %}
+                <li>
+                {{ book_inst.unique_id }}
+                </li>
+            {% endfor %}
+        {% else %}
+            <h5> no books_instances available </h5>
+        {% endif %}
+    </ul>
+    <ul>
+        </br></br>
+        <h3>Genres</h3>
+        {% if genres %}
+            {% for genre in genres %}
+                <li>
+                {{ genre.name }}
+                </li>
+            {% endfor %}
+        {% else %}
+            <h5> no genres available </h5>
+        {% endif %}
+    </ul>
+    <ul>
+        </br></br>
+        <h3>Languages</h3>
+        {% if languages %}
+            {% for language in languages %}
+                <li>
+                {{ language.name }}
+                </li>
+            {% endfor %}
+        {% else %}
+            <h5> no languages available </h5>
+        {% endif %}
+    </ul>
+{% endblock %}
+
