@@ -63,9 +63,8 @@ def demo_data(client):
     })
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(reset_sequences=True)
 def test_get_genre_endpoint(client, demo_data):
-    demo_data
     response = get_genres(client)
     print(response.json())
     assert response.status_code == 200
@@ -77,7 +76,7 @@ def test_get_genre_endpoint(client, demo_data):
         "name": "science fiction"
      }, 200)
 ])
-@pytest.mark.django_db
+@pytest.mark.django_db(reset_sequences=True)
 def test_create_genre_api_working(client, payload, status_code):
     response=create_genre(client, payload)
 
@@ -88,13 +87,13 @@ def test_create_genre_api_working(client, payload, status_code):
 
 
 @pytest.mark.parametrize("id, status_code", [
-    (6, 200),    # Valid book ID
+    (1, 200),    # Valid book ID
     (999, 404),  # Non-existent book ID
-    ("deftf", 404)
+    ("deftf", 404),
+    ("", 404)
 ])
-@pytest.mark.django_db
+@pytest.mark.django_db(reset_sequences=True)
 def test_get_genre_by_id(demo_data, client, id, status_code):
-    demo_data
     print(get_genres(client).json())
     response=get_genres_by_id(client, id)
     print(response.json())
@@ -102,26 +101,24 @@ def test_get_genre_by_id(demo_data, client, id, status_code):
 
 
 @pytest.mark.parametrize("id, status_code", [
-    (14, 204),    # Valid book ID
+    (1, 204),    # Valid book ID
     (999, 404),  # Non-existent book ID
     ("deftf", 404)
 ])
-@pytest.mark.django_db
+@pytest.mark.django_db(reset_sequences=True)
 def test_delete_genre_by_id(demo_data, client, id, status_code):
-    demo_data
     response =delete_genres_by_id(client, id)
     print(get_genres(client).json())
     assert response.status_code == status_code
 
 
 @pytest.mark.parametrize("id, status_code, payload", [
-    (23, 200, {
+    (1, 200, {
         "name": "classic"
     })
 ])
-@pytest.mark.django_db
+@pytest.mark.django_db(reset_sequences=True)
 def test_update_genre_by_id(client, demo_data, id, status_code, payload):
-    demo_data
     response = update_genres_by_id(client, id, payload)
     assert response.status_code == status_code
 

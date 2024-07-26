@@ -19,6 +19,8 @@ def handleLanguages(request):
             return Response(serializer.data)
         elif request.method == 'POST':
             data = json.loads(request.body.decode('utf-8'))
+            if data.get('name'):
+                data['name']=data['name'].lower()
             serializer = LanguageSerialzer(data=data)
             if serializer.is_valid():
                 try:
@@ -27,7 +29,7 @@ def handleLanguages(request):
                 except Exception as e:
                     return Response(str(e), status=400)
             else:
-                data = serializer.errors
+                return Response(serializer.errors, status=400)
             return Response(data)
         else:
             return Response("method not allowed", status=405)

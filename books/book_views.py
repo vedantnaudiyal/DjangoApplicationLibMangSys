@@ -26,17 +26,17 @@ def handleBooks(request):
                     data = serializer.data
                 except Exception as e:
                     # data=JSONRenderer().render(str(e))
-                    return Response(str(e))
+                    return Response(str(e), status=400)
             else:
-                data = serializer.errors
+                return Response(serializer.errors, status=400)
             return Response(data)
         else:
-            return Response("oops Not found", status=404)
+            return Response("method not allowed", status=405)
     else:
         try:
             book=Book.objects.get(pk=id)
         except Exception as e:
-            return Response(str(e))
+            return Response(str(e), 404)
         if request.method=='GET':
             serializer = BookSerialzer(book)
             data = serializer.data
@@ -51,19 +51,34 @@ def handleBooks(request):
                     serializer.save()
                     data=serializer.data
                 except Exception as e:
-                    return Response(str(e))
+                    return Response(str(e), status=400)
             else:
-                data=serializer.errors
+                return Response(serializer.errors, status=400)
             return Response(data)
         elif request.method=='DELETE':
             try:
                 book.delete()
             except Exception as e:
-                return Response(str(e))
+                return Response(str(e), 409)
             res={
                 "msg": f"book with id {id} successfully deleted"
             }
             # res=JSONRenderer().render(res)
-            return Response(res)
+            return Response(res, 204)
         else:
-            return Response("oops Not found", status=404)
+            return Response("method not allowed", status=405)
+
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsStaffOrReadOnly])
+def search_by_title(request):
+    # data = json.loads(request.body.decode('utf-8'))
+    # if data.get(title)
+    title = request.GET.get('title')
+    if title == None:
+        return Response(str("pls specify a title"), 400)
+    books = Book.objects.filter(title__contains=title)
+    serializer = BookSerialzer(books, many=True)
+    return Response(serializer.data)

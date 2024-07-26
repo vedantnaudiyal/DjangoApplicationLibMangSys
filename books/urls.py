@@ -13,5 +13,8 @@ urlpatterns=[
     path('users', class_based_views.UserListView.as_view(), name='user-list'),
     path('users/<int:pk>/', class_based_views.UserDetailView.as_view(), name='user-detail'),
     path('register', class_based_views.RegisterAPIView.as_view(), name='register'),
-    path('login/', class_based_views.LoginAPIView.as_view(), name='login'),
+    path('login', class_based_views.LoginAPIView.as_view(), name='login'),
+    path('getBookInstancesByStatus', book_instance_views.getBookInstancesByStatus, name='book_ins_by_status'),
+    path('getBookInstancesLateSubmission', book_instance_views.getBookInstancesLateSubmission, name='book_ins_by_late_sub'),
+    path('search_by_title', book_views.search_by_title, name='searh_book_by_title')
 ]

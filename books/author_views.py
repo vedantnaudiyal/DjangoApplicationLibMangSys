@@ -23,6 +23,7 @@ def handleAuthors(request):
             # print(str(request.data))
 
             data = json.loads(request.body.decode('utf-8'))
+
             serializer = AuthorSerialzer(data=data)
             if serializer.is_valid():
                 try:
@@ -32,7 +33,7 @@ def handleAuthors(request):
                     # data=JSONRenderer().render(str(e))
                     return Response(str(e), status=400)
             else:
-                data = serializer.errors
+                return Response(serializer.errors, 400)
             return Response(data)
         else:
             return Response("method not allowed", status=405)
@@ -66,7 +67,7 @@ def handleAuthors(request):
             except Exception as e:
                 return Response(str(e), 409)
             res = {
-                "msg": f"genre with id {id} successfully deleted"
+                "msg": f"author with id {id} successfully deleted"
             }
             return Response(res, 204)
         else:

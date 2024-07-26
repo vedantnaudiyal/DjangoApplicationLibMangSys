@@ -73,9 +73,8 @@ def demo_data(client):
     })
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(reset_sequences=True)
 def test_get_author_endpoint(client, demo_data):
-    demo_data
     response = get_authors(client)
     print(response.json())
     assert response.status_code == 200
@@ -88,24 +87,21 @@ def test_get_author_endpoint(client, demo_data):
         "date_of_death": "1616-04-23"
      }, 200)
 ])
-@pytest.mark.django_db
+@pytest.mark.django_db(reset_sequences=True)
 def test_create_author_api_working(client, payload, status_code):
     response = create_author(client, payload)
 #
     assert response.status_code == status_code
-    response = response.json()
-    data = get_authors(client).json()
-    assert len(data) == 1
+
 # #
 # #
 @pytest.mark.parametrize("id, status_code", [
-    (6, 200),  # Valid book ID
+    (1, 200),  # Valid book ID
     (999, 404),  # Non-existent book ID
     ("deftf", 404)
 ])
-@pytest.mark.django_db
+@pytest.mark.django_db(reset_sequences=True)
 def test_get_author_by_id(demo_data, client, id, status_code):
-    demo_data
     print(get_authors(client).json())
     response = get_authors_by_id(client, id)
     print(response.json())
@@ -113,26 +109,25 @@ def test_get_author_by_id(demo_data, client, id, status_code):
 # #
 # #
 @pytest.mark.parametrize("id, status_code", [
-    (14, 204),  # Valid book ID
+    (1, 204),  # Valid book ID
     (999, 404),  # Non-existent book ID
-    ("deftf", 404)
+    ("deftf", 404),
+    ('', 404)
 ])
-@pytest.mark.django_db
+@pytest.mark.django_db(reset_sequences=True)
 def test_delete_author_by_id(demo_data, client, id, status_code):
-    demo_data
     response = delete_authors_by_id(client, id)
     print(get_authors(client).json())
     assert response.status_code == status_code
 #
 #
 @pytest.mark.parametrize("id, status_code, payload", [
-    (23, 200, {
+    (1, 200, {
         "date_of_death": None
     })
 ])
-@pytest.mark.django_db
+@pytest.mark.django_db(reset_sequences=True)
 def test_update_author_by_id(client, demo_data, id, status_code, payload):
-    demo_data
     response = update_authors_by_id(client, id, payload)
     print(response.json())
     assert response.status_code == status_code

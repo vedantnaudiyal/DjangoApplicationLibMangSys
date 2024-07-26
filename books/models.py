@@ -2,7 +2,7 @@ from django.db import models
 import uuid
 from django.urls import reverse
 from django.db.models import functions
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -68,6 +68,7 @@ class BookInstance(models.Model):
     )
     status=models.CharField(max_length=1, choices=book_status, blank=True, default='a')
     book=models.ForeignKey('Book', on_delete=models.PROTECT)
+    issuer = models.ForeignKey(User, on_delete=models.PROTECT, default=3, verbose_name="name of issuer")
 
     class Meta:
         ordering: ['-return_date']
@@ -77,7 +78,7 @@ class BookInstance(models.Model):
 
 
 class Author(models.Model):
-    name=models.CharField(max_length=100, help_text="Name of the author")
+    name=models.CharField(max_length=100, help_text="Name of the author", unique=True)
     date_of_birth=models.DateField(help_text="Date of birth", null=True, blank=True)
     date_of_death=models.DateField("Expired",help_text="Date of death", null=True, blank=True)
 
