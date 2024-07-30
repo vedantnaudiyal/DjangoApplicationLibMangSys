@@ -38,6 +38,8 @@ class AuthorSerialzer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+
+    # booksBorrowed=BookInstanceSerialzer(many=True, read_only=True, default=[])
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password']
@@ -49,6 +51,7 @@ class UserSerializer(serializers.ModelSerializer):
             user.set_password(password)
         user.save()
         return user
+
 
 
 class LoginSerializer(serializers.ModelSerializer):
