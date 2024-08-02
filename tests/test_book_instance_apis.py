@@ -105,7 +105,8 @@ def test_get_book_endpoint(client, demo_data):
     ({
         "return_date": "2024-12-01",
         "book_status": "b",
-        "book": 1
+        "book": 1,
+        "issuer": 1
     }, 201),    # ok status
     ({
         "return_date": "2024-12-01",
@@ -171,7 +172,8 @@ def test_get_del_upd_book_ins_by_id(client, demo_data):
     book_ins=create_book_ins(client,{
         "return_date": "2024-12-01",
         "book_status": "b",
-        "book": 1
+        "book": 1,
+        "issuer": 1
     }).json()
     print(book_ins)
     response=get_book_ins_by_id(client, book_ins['unique_id'])
@@ -206,7 +208,6 @@ def test_get_late_submissions(demo_data, client):
     ])
 @pytest.mark.django_db(reset_sequences=True)
 def test_get_books_by_status(demo_data, client, status, status_code):
-    demo_data
     response = client.get(endpoints.get("book_by_status")+f"?status={status}")
     print(response.json())
 

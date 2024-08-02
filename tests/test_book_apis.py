@@ -195,7 +195,7 @@ def test_update_book_by_id(client, demo_data, id, status_code, payload):
 ])
 @pytest.mark.django_db(reset_sequences=True)
 def test_search_book_by_title(client, demo_data,title, status_code):
-    response = client.get(endpoints.get('search') + f"?title={title}")
+    response = client.get(endpoints.get('search') + f"?keyword={title}")
     assert response.status_code == status_code
 
 

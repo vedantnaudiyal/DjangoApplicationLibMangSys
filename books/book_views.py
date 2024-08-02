@@ -108,7 +108,10 @@ def search_by_title(request):
     # books_by_author = Book.objects.filter(author=4)
     serializer1 = BookSerialzer(books_by_title, many=True)
     # serializer2 = BookSerialzer(books_by_author, many=True)
-    return Response({
-        "books_by_title": serializer1.data,
-        # "books_by_author": serializer2.data,
-    })
+    return Response(
+        # {
+        #     "books_by_title": serializer1.data,
+        #     # "books_by_author": serializer2.data,
+        # }
+        serializer1.data
+    )

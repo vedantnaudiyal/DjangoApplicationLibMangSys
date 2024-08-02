@@ -107,10 +107,10 @@ def getBookInstancesByStatus(request):
         if BookInstance.book_status[ind][0]==status:
             index=ind
             break
-
+    # print(status, index)
     if index==-1:
         logger.error(f"no book_instance with status as {status} are available!")
-        Response(str("please provide a valid book_status"), status=400)
+        return Response(str("please provide a valid book_status"), status=400)
     logger.info(f"fetching books instances with status {BookInstance.book_status[ind][0]} and are {BookInstance.book_status[ind][1]}")
     if status == 'a':
         book_instances = BookInstance.objects.filter(status='a')
@@ -135,6 +135,7 @@ def getBookInstancesByStatus(request):
 def getBookInstancesLateSubmission(request):
     logger.info("fetching book_instances that are past their due late and their users")
     book_instances = BookInstance.objects.filter(return_date__lt=date.today(), status="b")
+
     serializer = BookInstanceSerialzer(book_instances, many=True)
     return Response(serializer.data)
 
