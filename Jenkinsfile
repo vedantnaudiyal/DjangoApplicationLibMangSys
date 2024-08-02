@@ -21,7 +21,7 @@ pipeline {
                     python manage.py makemigrations
                     python manage.py migrate
                     pip install -r requirements.txt
-                    docker version
+//                     docker version
 //                     python manage.py runserver
                 '''
             }
