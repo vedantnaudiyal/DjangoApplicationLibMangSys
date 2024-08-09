@@ -3,6 +3,7 @@ import uuid
 from django.urls import reverse
 from django.db.models import functions
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
@@ -90,3 +91,5 @@ class Author(models.Model):
 
 
 
+# class CustomUser(AbstractUser):
+#     birth_date=models.DateField(null=True, blank=True)

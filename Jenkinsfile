@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         // Define your environment variables here
-        PATH = "/usr/local/bin/"
+        PYTHONPATH = "/usr/local/bin/python3"
+
     }
 
     stages {
@@ -18,10 +19,9 @@ pipeline {
                 sh '''
                     python3 -m venv venv
                     source venv/bin/activate
+                    pip install -r requirements.txt
                     python manage.py makemigrations
                     python manage.py migrate
-                    pip install -r requirements.txt
-                    docker --version
                 '''
             }
         }
@@ -38,7 +38,8 @@ pipeline {
                 // Run the Django development server
                 sh '''
                     source venv/bin/activate
-                    // python manage.py runserver 0.0.0.0:8000
+                    pip install urllib3==1.26.6
+                    python manage.py runserver
                 '''
             }
         }
@@ -46,6 +47,14 @@ pipeline {
             steps{
                 echo " great done with deploy / delivery of product..."
             }
+        }
+    }
+    post {
+        success {
+            echo "pipeline completed successfully!"
+        }
+        failure {
+            echo "pipeline creation failed!"
         }
     }
 }

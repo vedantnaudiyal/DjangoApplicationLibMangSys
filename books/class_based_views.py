@@ -61,7 +61,15 @@ class LoginAPIView(APIView):
     permission_classes=[AllowAny]
 
     def post(self, request):
+
         serializer=LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user=serializer.validated_data.get('user')
-        return Response({"username": user.username}, status=status.HTTP_200_OK)
+        print("serializer.data")
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            return Response(str(e), 400)
+        print("hello world!")
+        print(serializer.validated_data)
+        user=serializer.validated_data.get('username')
+        print(user)
+        return Response({"username": user}, status=status.HTTP_200_OK)

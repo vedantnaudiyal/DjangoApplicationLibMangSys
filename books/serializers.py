@@ -38,11 +38,12 @@ class AuthorSerialzer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-
+    # books=serializers.CharField()
     # booksBorrowed=BookInstanceSerialzer(many=True, read_only=True, default=[])
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password']
+        # fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name']
+        fields='__all__'
 
     def create(self, validated_data):
         password=validated_data.get('password')
@@ -54,9 +55,15 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 
+
+
 class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField()
     password = serializers.CharField()
+
+    class Meta:
+        model=User
+        fields='__all__'
 
     def validate(self, data):
         username = data.get('username')
@@ -69,7 +76,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
         if user is None:
             raise Exception("Invalid username or password")
-        if not user.check_pass(password):
+        if not user.check_password(password):
             raise Exception("Invalid username or password")
 
         data['user'] = user
