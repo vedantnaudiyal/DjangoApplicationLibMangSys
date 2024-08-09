@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/updated']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/vedantnaudiyal/DjangoApplicationLibMangSys.git']])
+                checkout scmGit(branches: [[name: '*/jenkins_update']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/vedantnaudiyal/DjangoApplicationLibMangSys.git']])
 
             }
         }
