@@ -91,5 +91,6 @@ class Author(models.Model):
 
 
 
-# class CustomUser(AbstractUser):
-#     birth_date=models.DateField(null=True, blank=True)
+class CustomUser(AbstractUser):
+    birth_date=models.DateField(null=True, blank=True),
+    username = models.CharField(max_length=100, help_text="Name of the author", unique=True)
